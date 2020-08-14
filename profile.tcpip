@@ -1,0 +1,69 @@
+; ----------------------------------------------------------------------
+; - PROFILE TCPIP created by DTCIPWIZ EXEC on 6 Aug 2020
+; - Configuration program run by MAINT640 at 14:53:15
+; ----------------------------------------------------------------------
+;   %%File Origin Indicator - DO NOT REMOVE OR ALTER the next line%%
+;   %%TCPIP%%PROFILE%%STCPIP%%
+; ----------------------------------------------------------------------
+LARGEENVELOPEPOOLSIZE 50 16384
+OBEY
+OPERATOR TCPMAINT MAINT MPROUTE REXECD SNMPD SNMPQE LDAPSRV MAINT640
+ENDOBEY
+; ----------------------------------------------------------------------
+;   SSL
+; ----------------------------------------------------------------------
+SSLSERVERID * TIMEOUT 30
+SSLLIMITS MAXSESSIONS 100 MAXPERSSLSERVER 100
+; ----------------------------------------------------------------------
+PORT
+; 20   TCP FTPSERVE  NOAUTOLOG ; FTP Server
+; 21   TCP FTPSERVE            ; FTP Server
+ 23   TCP INTCLIEN            ; TELNET Server
+; 25   TCP SMTP                ; SMTP Server
+; 111  TCP PORTMAP             ; Portmap Server
+; 111  UDP PORTMAP             ; Portmap Server
+; 143  TCP IMAP                ; IMAP Server
+; 161  UDP SNMPD               ; SNMP Agent
+; 162  UDP SNMPQE              ; SNMPQE Agent
+; 389  TCP LDAPSRV             ; LDAP Server
+; 389  UDP LDAPSRV             ; LDAP Server
+; 512  TCP REXECD              ; REXECD Server (REXEC)
+; 514  TCP REXECD              ; REXECD Server (RSH)
+; 520  UDP MPROUTE   NOAUTOLOG ; Multiple Protocol Routing Server
+; 608  TCP UFTD                ; UFT Server
+; 636  TCP LDAPSRV             ; LDAP Server (Secure)
+; 636  UDP LDAPSRV             ; LDAP Server (Secure)
+  992  TCP INTCLIEN SECURE SECURETN  ; SSL TN3270 (label SECURETN)
+; 2049 UDP VMNFS               ; NFS Server
+; 2049 TCP VMNFS     NOAUTOLOG ; NFS Server
+; ----------------------------------------------------------------------
+;   SSL PARMS
+; ----------------------------------------------------------------------
+INTERNALCLIENTPARMS
+ SECURECONNECTION ALLOWED
+ TLSLABEL SECURETN
+ TIMEMARK 0600
+ PORT 23
+ PORT 992
+ENDINTERNALCLIENTPARMS
+; ----------------------------------------------------------------------
+DEVICE DEV@2000  OSD 2000  NONROUTER
+LINK OSA02000 QDIOETHERNET DEV@2000  PATHMTU MTU 1500 IP
+; (End DEVICE and LINK statements)
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+HOME
+193.228.143.194 255.255.255.224 OSA02000
+; (End HOME Address information)
+; ----------------------------------------------------------------------
+GATEWAY
+; Network       Subnet          First           Link             MTU
+; Address       Mask            Hop             Name             Size
+; ------------- --------------- --------------- ---------------- -----
+DEFAULTNET                      193.228.143.193 OSA02000      1500
+; (End GATEWAY Static Routing information)
+; ----------------------------------------------------------------------
+START DEV@2000
+; (End START statements)
+; ----------------------------------------------------------------------
+
